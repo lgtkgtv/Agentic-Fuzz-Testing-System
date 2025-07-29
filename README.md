@@ -7,11 +7,86 @@ and the [oss-fuzz-gen](https://github.com/google/oss-fuzz-gen) projects which us
 
 Among all software security tests (e.g., software composition analysis, static code analysis, malware scans, penetration tests, etc.), fuzz testing is uniquely challenging primarily because one must develop a fuzz test harness for each API or interface identified for fuzz testing. Additionally, analyzing a large codebase to identify and prioritize the relevant APIs/interfaces for fuzz testing is not straightforward. 
 
-"This repository will explore how Gemini and/or ChatGPT can assist in dissecting and expanding upon key concepts within current AI/ML-based fuzz testing automation techniques."
+This repository will explore how Gemini and/or ChatGPT can assist in dissecting and expanding upon key concepts within current AI/ML-based fuzz testing automation techniques.
 
 -sachin
 
 -----
+## Instructions to try and explore the `oss-fuzz-gen` on a local Ubuntu 24.04 host
+
+```text
+## Prerequisite 1 -- You need Vertex or OpenAPI keys, and docker in 
+#  echo $OPENAI_API_KEY
+
+## Prerequisite 2 -- You need docker - must work without sudo  
+#  docker run hello-world
+
+## Prerequisite 3 -- Strict dependency on python3.11 -- Note python3.12 not yet supported in the oss-fuzz env
+
+sudo apt update
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt update
+sudo apt install -y python3.11 python3.11-venv binutils # binutils provides c++filt
+
+cd ~
+git clone https://github.com/google/oss-fuzz-gen.git
+cd oss-fuzz-gen
+python3.11 -m venv venv_ossfuzzgen
+source venv_ossfuzzgen/bin/activate
+
+pip install --upgrade pip
+pip install -e . 
+
+pip install google-adk
+
+## Note: 
+## When we installed google-adk, it brings in newer versions of following that are incompatible with `fuzz-introspector`
+#    google-api-python-client
+#    google-cloud-aiplatform 
+#    google-cloud-storage
+#    PyYAML
+#
+
+## Following changes to `pyproject.toml` are required to reinstall the strict dependencies required for for `oss-fuzz-gen`  
+
+## gedit `pyproject.toml` -- change the  dependencies =[..] section to following
+```
+dependencies = [
+"anthropic==0.31.2",
+"chardet==5.2.0",
+"cxxfilt==0.3.0",
+"GitPython==3.1.43",
+"google-api-python-client>=2.143.0",
+"google-cloud-aiplatform>=1.64.0",
+"google-cloud-storage>=2.9.0",
+"google-cloud-logging>=3.11.2",
+"Jinja2==3.1.5",
+"openai==1.84.0",
+"pandas==2.2.2",
+"pylint==3.2.5",
+"pyright==1.1.345",
+"PyYAML>=6.0.1",
+"requests==2.32.4",
+"rust-demangler==1.0",
+"tiktoken==0.9.0",
+"yapf==0.40.1",
+"fuzz-introspector>=0.1.10"
+]
+```          
+pip install -e . --no-deps
+
+cd ~/oss-fuzz-gen
+rm -rf work-dir
+
+oss-fuzz-generator generate-full -i input.txt -m gpt-4o -w work-dir
+oss-fuzz-generator generate-full -i input.txt -m gpt-4o -w work-dir &> oss_fuzz_gen_log.txt
+## Alternatively, use the more traditional syntax (which works in all POSIX shells):
+##      oss-fuzz-generator generate-full -i input.txt -m gpt-4o -w work-dir > oss_fuzz_gen_log.txt 2>&1
+
+### To monitor logs, run `tail -f` in a separate shell 
+    tail -f oss_fuzz_gen_log.txt
+```
 
 -----
 
