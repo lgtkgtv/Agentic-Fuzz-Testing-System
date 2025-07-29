@@ -12,7 +12,7 @@ This repository will explore how Gemini and/or ChatGPT can assist in dissecting 
 -sachin
 
 -----
-## Instructions to try and explore the `oss-fuzz-gen` on a local Ubuntu 24.04 host
+## Try `oss-fuzz-gen` on a local Ubuntu 24.04 host
 
 ```text
 ## Prerequisite 1 -- You need Vertex or OpenAPI keys, and docker in 
@@ -21,7 +21,7 @@ This repository will explore how Gemini and/or ChatGPT can assist in dissecting 
 ## Prerequisite 2 -- You need docker - must work without sudo  
 #  docker run hello-world
 
-## Prerequisite 3 -- Strict dependency on python3.11 -- Note python3.12 not yet supported in the oss-fuzz env
+## Prerequisite 3 -- Strict dependency on python3.11 (As of July 2025,  python3.12 is not yet supported in the oss-fuzz env)
 
 sudo apt update
 sudo apt install software-properties-common -y
@@ -51,7 +51,7 @@ pip install google-adk
 ## Following changes to `pyproject.toml` are required to reinstall the strict dependencies required for for `oss-fuzz-gen`  
 
 ## gedit `pyproject.toml` -- change the  dependencies =[..] section to following
-```
+
 dependencies = [
 "anthropic==0.31.2",
 "chardet==5.2.0",
@@ -73,7 +73,7 @@ dependencies = [
 "yapf==0.40.1",
 "fuzz-introspector>=0.1.10"
 ]
-```          
+
 pip install -e . --no-deps
 
 cd ~/oss-fuzz-gen
