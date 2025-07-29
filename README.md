@@ -2,8 +2,16 @@
 
 -----
 
-Currently, this is a work in progress using both Gemini and ChatGPT 
+Currently, this is a work in progress inspired by Google's most excellent [oss-fuzz](https://github.com/google/oss-fuzz) "fuzzing/Software As A Service Framework" 
+and the [oss-fuzz-gen](https://github.com/google/oss-fuzz-gen) projects which uses GenAI techniques to autogenerate the fuzz test harness.
+
+Among all software security tests (e.g., software composition analysis, static code analysis, malware scans, penetration tests, etc.), fuzz testing is uniquely challenging primarily because one must develop a fuzz test harness for each API or interface identified for fuzz testing. Additionally, analyzing a large codebase to identify and prioritize the relevant APIs/interfaces for fuzz testing is not straightforward. 
+
+"This repository will explore how Gemini and/or ChatGPT can assist in dissecting and expanding upon key concepts within current AI/ML-based fuzz testing automation techniques."
+
 -sachin
+
+-----
 
 -----
 
