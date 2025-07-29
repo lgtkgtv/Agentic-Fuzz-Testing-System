@@ -79,6 +79,9 @@ pip install -e . --no-deps
 cd ~/oss-fuzz-gen
 rm -rf work-dir
 
+## `jsmn` (pronounced like 'jasmine') is a minimalistic JSON parser in C. We will fuzz this project.
+echo "https://github.com/zserge/jsmn" > input.txt
+
 oss-fuzz-generator generate-full -i input.txt -m gpt-4o -w work-dir
 oss-fuzz-generator generate-full -i input.txt -m gpt-4o -w work-dir &> oss_fuzz_gen_log.txt
 ## Alternatively, use the more traditional syntax (which works in all POSIX shells):
